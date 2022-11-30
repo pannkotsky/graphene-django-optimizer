@@ -147,7 +147,8 @@ class QueryOptimizer(object):
 
                         graphene_type = possible_type.graphene_type
 
-                        if hasattr(graphene_type._meta, "baseType") and name == "results":
+                        # Check if graphene type is a paginated list of items
+                        if name == "results" and "totalCount" in possible_type.fields:
                             return self._optimize_gql_selections(
                                 self._get_type(selection_field_def),
                                 selection,
